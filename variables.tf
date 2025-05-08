@@ -1,7 +1,7 @@
 variable "env_prefix" {
   description = "Prefix for all resources"
   type        = string
-  default     = "customer"
+  default     = "customer-name"
 }
 
 variable "tf_tag" {
