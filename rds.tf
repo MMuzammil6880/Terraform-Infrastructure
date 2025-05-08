@@ -1,0 +1,38 @@
+module "db" {
+  source = "terraform-aws-modules/rds/aws"
+
+  identifier        = "${var.env_prefix}-db"
+  engine            = var.db_engine
+  major_engine_version = var.db_engine_version
+  instance_class    = var.db_instance_type
+  port     = var.db_port
+  allocated_storage = var.db_storage_size
+  storage_type = var.db_storage_type
+ 
+
+  manage_master_user_password = true
+  username = var.db_username
+  password = var.db_password
+ 
+
+ 
+  vpc_security_group_ids = [module.db_sg.security_group_id]
+
+  # DB subnet group
+  create_db_subnet_group = true
+  subnet_ids             = [aws_subnet.private1.id, aws_subnet.private2.id, aws_subnet.private3.id]
+
+  # DB parameter group
+  family = var.db_family
+
+ 
+  # Database Deletion Protection
+  deletion_protection = true
+
+  tags = {
+    managed = "${var.tf_tag}"
+  }
+
+}
+
+
