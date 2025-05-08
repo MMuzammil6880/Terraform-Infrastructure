@@ -8,6 +8,8 @@ module "db" {
   port     = var.db_port
   allocated_storage = var.db_storage_size
   storage_type = var.db_storage_type
+  multi_az = false
+
  
 
   manage_master_user_password = true
@@ -20,7 +22,7 @@ module "db" {
 
   # DB subnet group
   create_db_subnet_group = true
-  subnet_ids             = [aws_subnet.private1.id, aws_subnet.private2.id, aws_subnet.private3.id]
+  subnet_ids            = [aws_subnet.private1.id]
 
   # DB parameter group
   family = var.db_family
@@ -28,6 +30,10 @@ module "db" {
  
   # Database Deletion Protection
   deletion_protection = true
+
+  #adding the availability zone
+  availability_zone = var.availability_zone2
+  
 
   tags = {
     managed = "${var.tf_tag}"
