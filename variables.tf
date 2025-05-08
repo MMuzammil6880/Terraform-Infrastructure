@@ -8,7 +8,12 @@ variable "tf_tag" {
   description = "Tags for the VPC and its resources"
   type        = string
   default     = "managed-by-terraform"
-  
+}
+
+variable "provider_region" {
+  description = "this variable is for the provider region"
+  type        = string
+  default     = "me-central-1" 
 }
 #================================ VPC =========================================
 #below are the variables for the VPC [vpc.tf]
