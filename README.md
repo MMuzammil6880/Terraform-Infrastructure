@@ -26,8 +26,11 @@ This Terraform project automates the deployment of a production-ready WordPress 
 🚀 What It Does
 
 ✅ Creates:
+
 1. Custom VPC with 3 public and 3 private subnets.
+
 2.EC2 instance (for WordPress) in a public subnet with:
+
 3. SSM role
    
 3.1 Create a Key pair and install it in the Current folder.
@@ -56,7 +59,9 @@ This Terraform project automates the deployment of a production-ready WordPress 
 
 
 🔧 Usage
+
 1. Configure Remote Backend (optional)
+
 Update backend.tf with your S3 bucket and key:
 
 bucket = "your-bucket-name"
@@ -102,26 +107,38 @@ $ terraform apply -auto-approve
    This ensures WordPress is installed and configured automatically without manual intervention.
 
 🔒 Security Notes
-   EC2 SG allows configurable HTTP/HTTPS and SSH (default open)
-   RDS is securely isolated in private subnets with restricted access
-   EC2 uses AWS SSM for secure management (no open SSH by default)
-   Key pair is auto-generated and downloaded locally for optional access
+   
+EC2 SG allows configurable HTTP/HTTPS and SSH (default open)
+   
+RDS is securely isolated in private subnets with restricted access
+   
+EC2 uses AWS SSM for secure management (no open SSH by default)
+   
+Key pair is auto-generated and downloaded locally for optional access
 
 🔄 Outputs
 
 After deployment, the Terraform output provides:
 
 vpc_id – ID of the created VPC
+
 wordpress_server_key_pair – EC2 key pair name
+
 ec2_public_ip – Public IP of the WordPress server
+
 rds_endpoint – RDS database endpoint
 
 📌 Notes
-   Uses Terraform AWS modules from the community (terraform-aws-modules)
-   Subnet and route table management is manual for fine control
-   EC2 instance is assigned an Elastic IP
-   RDS deletion protection is enabled for production safety
-   WordPress is ready-to-use right after deployment
+   
+Uses Terraform AWS modules from the community (terraform-aws-modules)
+   
+Subnet and route table management is manual for fine control
+   
+EC2 instance is assigned an Elastic IP
+   
+RDS deletion protection is enabled for production safety
+   
+WordPress is ready-to-use right after deployment
 
 
 🧼 Cleanup
