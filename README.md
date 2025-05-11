@@ -1,4 +1,5 @@
 🚀 Terraform AWS WordPress Deployment
+
 This Terraform project automates the deployment of a production-ready WordPress server and MySQL RDS database on AWS. It follows best practices and includes VPC setup, EC2 provisioning, RDS configuration, Security Groups, IAM roles, and automated WordPress installation using an Ansible playbook triggered via EC2 user_data.
 
 📁 Project Structure
