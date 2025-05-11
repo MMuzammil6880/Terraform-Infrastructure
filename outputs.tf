@@ -19,3 +19,8 @@ output "wordpress_server_public_ip" {
   description = "value of the Prod-Wordpress-Public-IP"
 }
 
+output "rds_endpoint" {
+  value = module.rds.rds_endpoint
+  description = "RDS endpoint for the database"
+  
+}
