@@ -22,7 +22,7 @@ module "db" {
 
   # DB subnet group
   create_db_subnet_group = true
-  subnet_ids            = [aws_subnet.private1.id]
+  subnet_ids            = [aws_subnet.private1.id, aws_subnet.private2.id]
 
   # DB parameter group
   family = var.db_family
