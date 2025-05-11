@@ -51,7 +51,11 @@ module "wordpress_server" {
     user_data = <<-EOF
               #!/bin/bash
               apt update && apt upgrade -y
-              apt install -y python3 python3-pip git ansible
+              apt install -y python3 python3-pip git ansible mysql-server mysql-client
+
+              # Start MySQL service
+              systemctl enable mysql
+              systemctl start mysql
 
               # Clone Ansible repo
               git clone https://github.com/MMuzammil6880/wodpress-ansible.git /opt/wordpress-ansible
