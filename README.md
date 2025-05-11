@@ -38,7 +38,7 @@ This Terraform project automates the deployment of a production-ready WordPress 
    
 3.4 User data script that:
       
-. Installs Python, Git, Ansible
+. Installs Python, Git, and Ansible
       
 . Clone the Ansible repo: https://github.com/MMuzammil6880/wodpress-ansible.git
       
