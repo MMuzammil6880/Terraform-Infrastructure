@@ -28,6 +28,7 @@ This Terraform project automates the deployment of a production-ready WordPress 
 1. Custom VPC with 3 public and 3 private subnets.
 2.EC2 instance (for WordPress) in a public subnet with:
 3. SSM role
+   
    3.1 Create a Key pair and install it in the Current folder.
    3.2 Attached Elastic IP
    3.3 Auto-generated key pair (downloaded locally)
@@ -35,9 +36,12 @@ This Terraform project automates the deployment of a production-ready WordPress 
       . Installs Python, Git, Ansible
       . Clone the Ansible repo: https://github.com/MMuzammil6880/wodpress-ansible.git
       . Executes wordpress.yml playbook locally to install and configure WordPress
+
 5. MySQL RDS database.
+   
    5.1 EC2 SG allows HTTP/HTTPS and SSH (configurable)
-   6.2 RDS SG restricts access to the private network only    
+   5.2 RDS SG restricts access to the private network only    
+
 6. IAM Roles & Instance Profiles:
    6.1 Used for SSM access and secure instance management
 
