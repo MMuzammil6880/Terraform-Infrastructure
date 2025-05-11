@@ -1,4 +1,5 @@
-This Terraform project automates the deployment of a WordPress server and MySQL RDS database on AWS using production-ready best practices. It includes VPC setup, EC2 instance provisioning, RDS configuration, security groups, and IAM roles.
+🚀 Terraform AWS WordPress Deployment
+This Terraform project automates the deployment of a production-ready WordPress server and MySQL RDS database on AWS. It follows best practices and includes VPC setup, EC2 provisioning, RDS configuration, Security Groups, IAM roles, and automated WordPress installation using an Ansible playbook triggered via EC2 user_data.
 
 📁 Project Structure
 .
@@ -19,13 +20,19 @@ This Terraform project automates the deployment of a WordPress server and MySQL 
 1. Custom VPC with 3 public and 3 private subnets.
 2.EC2 instance (for WordPress) in a public subnet with:
 3. SSM role
-4. Key pair
-5. Attached Elastic IP
-6. MySQL RDS database in private subnets with:
-7. Encrypted storage
-8. Multi-AZ enabled (by adding more subnets)
-9. Security Groups for controlled access
-10. IAM Role & Profile for SSM (no SSH needed)
+   3.1 Create a Key pair and install it in the Current folder.
+   3.2 Attached Elastic IP
+   3.3 Auto-generated key pair (downloaded locally)
+   3.4 User data script that:
+      . Installs Python, Git, Ansible
+      . Clone the Ansible repo: https://github.com/MMuzammil6880/wodpress-ansible.git
+      . Executes wordpress.yml playbook locally to install and configure WordPress
+5. MySQL RDS database.
+   5.1 EC2 SG allows HTTP/HTTPS and SSH (configurable)
+   6.2 RDS SG restricts access to the private network only    
+6. IAM Roles & Instance Profiles:
+   6.1 Used for SSM access and secure instance management
+
 
 🔧 Usage
 1. Configure Remote Backend (optional)
@@ -37,49 +44,64 @@ region = "your-region"
 
 
 2. Customize Variables
-   
-In variables.tf, modify:
-env_prefix – to identify resources
-provider_region – AWS region
-db_username, db_password, db_engine – for the database
-wordpress_ingress_rules – IPs and ports allowed
-Subnet CIDRs and instance types
-
-You can also override variables via terraform.tfvars or CLI flags.
-
+   Edit variables.tf to update
+      In variables.tf, modify:
+      env_prefix – to identify resources
+      provider_region – AWS region
+      db_username, db_password, db_engine – for the database
+      wordpress_ingress_rules – IPs and ports allowed
+      Subnet CIDRs and instance types
 
 3. Initialize
-terraform init
+$ terraform init
 
 4. Plan
-terraform plan
+$ terraform plan
 
 5. Apply
-terraform apply
+$ terraform apply
 
 To apply without prompts:
 terraform apply -auto-approve
 
-🔒 Security Notes
 
-EC2 security group allows open HTTP/HTTPS and SSH.
-RDS is protected using its own SG and optional CIDRs.
-SSM is used instead of SSH for server access (AmazonSSMManagedInstanceCore policy attached).
+🛠️ WordPress Setup via Ansible (User Data)
+   Once the EC2 instance is provisioned, the following user data script is executed automatically:
+      #!/bin/bash
+      apt update && apt upgrade -y
+      apt install -y python3 python3-pip git ansible
+
+   #Clone Ansible repo
+      git clone https://github.com/MMuzammil6880/wodpress-ansible.git /opt/wordpress-ansible
+
+   #Run playbook
+      cd /opt/wordpress-ansible
+      ansible-playbook -i "localhost," -c local wordpress.yml
+   
+   This ensures WordPress is installed and configured automatically without manual intervention.
+
+🔒 Security Notes
+   EC2 SG allows configurable HTTP/HTTPS and SSH (default open)
+   RDS is securely isolated in private subnets with restricted access
+   EC2 uses AWS SSM for secure management (no open SSH by default)
+   Key pair is auto-generated and downloaded locally for optional access
 
 🔄 Outputs
 
-After deployment, the terraform output provides:
+After deployment, the Terraform output provides:
 
-vpc_id – created VPC ID
-wordpress_server_key_pair – key pair name for EC2
+vpc_id – ID of the created VPC
+wordpress_server_key_pair – EC2 key pair name
+ec2_public_ip – Public IP of the WordPress server
+rds_endpoint – RDS database endpoint
 
 📌 Notes
-
-This uses community modules from the terraform-aws-modules GitHub org.
-RDS has deletion protection enabled.
-Subnets and routes are manually managed for fine control.
-The EC2 instance uses an Elastic IP.
+   Uses Terraform AWS modules from the community (terraform-aws-modules)
+   Subnet and route table management is manual for fine control
+   EC2 instance is assigned an Elastic IP
+   RDS deletion protection is enabled for production safety
+   WordPress is ready-to-use right after deployment
 
 
 🧼 Cleanup
-terraform destroy
+   $ terraform destroy
