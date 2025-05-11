@@ -9,7 +9,7 @@ output "vpc_id" {
 
 
 output "iam_instance_profile_name" {
-  value       = aws_iam_instance_profile.ssm_instance_profile.arn
+  value       = module.ssm_instance_profile.name
   description = "IAM Instance Profile name for EC2 (SSM)"
 }
 
