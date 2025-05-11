@@ -51,7 +51,7 @@ resource "aws_subnet" "public2" {
 resource "aws_subnet" "public3" {
     vpc_id                  = module.vpc.vpc_id
     cidr_block              = var.public_subnet3_cidr
-    availability_zone       = var.availability_zone2
+    availability_zone       = var.availability_zone3
     map_public_ip_on_launch = true
 
   tags = {
@@ -66,7 +66,7 @@ resource "aws_subnet" "public3" {
 resource "aws_subnet" "private1" {
     vpc_id                  = module.vpc.vpc_id
     cidr_block              = var.private_subnet1_cidr
-    availability_zone       = var.availability_zone3
+    availability_zone       = var.availability_zone1
     map_public_ip_on_launch = false
 
   tags = {
@@ -78,7 +78,7 @@ resource "aws_subnet" "private1" {
 resource "aws_subnet" "private2" {
     vpc_id                  = module.vpc.vpc_id
     cidr_block              = var.private_subnet2_cidr
-    availability_zone       = var.availability_zone3
+    availability_zone       = var.availability_zone2
     map_public_ip_on_launch = false
 
   tags = {
