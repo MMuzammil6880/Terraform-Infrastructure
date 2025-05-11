@@ -4,13 +4,21 @@ This Terraform project automates the deployment of a production-ready WordPress 
 📁 Project Structure
 .
 ├── backend.tf                # Remote backend (S3) configuration
+
 ├── ec2.tf                    # EC2 instance and Elastic IP
+
 ├── iam.tf                    # SSM IAM role and instance profile
+
 ├── outputs.tf                # Output values
+
 ├── provider.tf               # AWS provider configuration
+
 ├── rds.tf                    # MySQL RDS instance
+
 ├── sg.tf                     # Security Groups (EC2 and RDS)
+
 ├── variables.tf              # All project variables
+
 ├── vpc.tf                    # VPC, subnets, route tables, and IGW
 
 
