@@ -8,10 +8,14 @@ output "vpc_id" {
 }
 
 
-#server key pair
+output "iam_instance_profile_name" {
+  value       = aws_iam_instance_profile.ssm_instance_profile.arn
+  description = "IAM Instance Profile name for EC2 (SSM)"
+}
 
-output "wordpress_server_key_pair" {
-  value = module.wordpress_server_key_pair.key_pair_name
-  description = "value of the Prod-Server-Key-Pair"
+#wordpress server public IP
+output "wordpress_server_public_ip" {
+  value = aws_eip.wordpress.public_ip
+  description = "value of the Prod-Wordpress-Public-IP"
 }
 
