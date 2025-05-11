@@ -1,20 +1,23 @@
 variable "env_prefix" {
   description = "Prefix for all resources"
   type        = string
-  default     = "customer-name"
+  default     = "customer"
 }
 
 variable "tf_tag" {
   description = "Tags for the VPC and its resources"
   type        = string
   default     = "managed-by-terraform"
+  
 }
 
 variable "provider_region" {
   description = "this variable is for the provider region"
   type        = string
-  default     = "me-central-1" 
+  default     = "us-east-1"
+  
 }
+
 #================================ VPC =========================================
 #below are the variables for the VPC [vpc.tf]
 variable "vpc_cidr" {
@@ -55,7 +58,7 @@ variable "private_subnet2_cidr" {
 variable "private_subnet3_cidr" {
     description = "List of private subnets for the VPC"
     type        = string
-    default     = "10.10.5.128/26"
+    default     = "10.0.5.0/24"
     }       
 
 
@@ -65,21 +68,21 @@ variable "private_subnet3_cidr" {
 variable "availability_zone1" {
     description = "Availability zone for the first public subnet"
     type        = string
-    default     = "me-central-1a"
+    default     = "us-east-1a"
   
 }
 
 variable "availability_zone2" {
     description = "Availability zone for the second public subnet"
     type        = string
-    default     = "me-central-1b"
+    default     = "us-east-1b"
   
 }
 
 variable "availability_zone3" {
     description = "Availability zone for the private subnet"
     type        = string
-    default     = "me-central-1c"
+    default     = "us-east-1c"
   
 }
 
@@ -211,4 +214,5 @@ variable "db_storage_type" {
   default     = "gp2"
   
 }
+
 
