@@ -46,7 +46,7 @@ module "wordpress_server" {
   vpc_security_group_ids = [module.wordpress_sg.security_group_id]
   subnet_id              = aws_subnet.public1.id
   associate_public_ip_address = true
-  iam_instance_profile = module.ssm_role.iam_instance_profile_arn
+  iam_instance_profile = module.ssm_role.iam_instance_profile_name
 
     user_data = <<-EOF
               #!/bin/bash
