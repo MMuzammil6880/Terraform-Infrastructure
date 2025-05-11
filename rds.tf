@@ -9,10 +9,12 @@ module "db" {
   allocated_storage = var.db_storage_size
   storage_type = var.db_storage_type
   multi_az = false
+  skip_final_snapshot = true
+
 
  
 
-  manage_master_user_password = true
+  manage_master_user_password = false
   username = var.db_username
   password = var.db_password
  
