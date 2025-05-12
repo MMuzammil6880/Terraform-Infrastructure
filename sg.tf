@@ -43,22 +43,24 @@ module "db_sg" {
   vpc_id      = module.vpc.vpc_id
 
   # Ingress rules
-  ingress_with_cidr_blocks = [
-    for rule in var.db_sg_ingress_rules : {
-      from_port   = rule.from_port
-      to_port     = rule.to_port
-      protocol    = rule.protocol
-      cidr_blocks = rule.cidr_blocks
-      description = lookup(rule, "description", null)
+ ingress_with_source_security_group_id = [
+    {
+      from_port                = 3306
+      to_port                  = 3306
+      protocol                 = "tcp"
+      source_security_group_id = module.wordpress_sg.security_group_id
+      description              = "Allow MySQL from WordPress EC2"
     }
   ]
-  # Egress rule (Allow all egress traffic)
-  egress_with_cidr_blocks = [{
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = "0.0.0.0/0"
-  }]
+
+  egress_with_cidr_blocks = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = "0.0.0.0/0"
+    }
+  ]
 
   tags = {
     managed = "${var.tf_tag}"

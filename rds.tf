@@ -31,7 +31,7 @@ module "db" {
 
  
   # Database Deletion Protection
-  deletion_protection = true
+  deletion_protection = false
 
   #adding the availability zone
   availability_zone = var.availability_zone2

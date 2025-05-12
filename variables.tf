@@ -131,30 +131,6 @@ variable "wordpress_ingress_rules" {
   ]
 }
 
-#================================ RDS =========================================
-
-
-#below are the variables for the RDS securtity group [rds.tf]
-
-variable "db_sg_ingress_rules" {
-  description = "List of ingress rules for the security group"
-  type = list(object({
-    from_port   = number
-    to_port     = number
-    protocol    = string
-    cidr_blocks = string
-    description = optional(string)
-  }))
-  default = [
-    {
-      from_port   = 3306
-      to_port     = 3306
-      protocol    = "tcp"
-      cidr_blocks = "0.0.0.0/0"
-    }
-  ]
-}
-
 #below are the variables for the RDS instance [rds.tf]
 variable "db_engine" {
   description = "Database engine for the RDS instance"
