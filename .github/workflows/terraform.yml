@@ -20,7 +20,7 @@ jobs:
           terraform_version: 1.5.7
 
       - name: Check Terraform Formatting
-        run: terraform fmt -check -recursive
+        run: terraform fmt -check
 
   terraform-init:
     name: Terraform Init
