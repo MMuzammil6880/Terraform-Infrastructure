@@ -1,22 +1,84 @@
-name: Terraform Destroy Pipeline
+name: Terraform CI/CD Pipeline
 
 on:
-  workflow_dispatch:  # Manual trigger
   push:
     branches:
-      - main
-      - production
-    paths:
-      - 'terraform/**'  # Only trigger when Terraform files change
-  pull_request:
-    types: [closed]
-    branches:
-      - main
+      - '**'  # Run on all branches
+
+  workflow_dispatch:  # Allows manual trigger for apply
 
 jobs:
-  terraform-destroy:
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.action == 'closed') || (github.ref == 'refs/heads/production' && github.event_name == 'push')
-    name: Terraform Destroy
+  terraform-fmt:
+    name: Terraform Format Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.7
+
+      - name: Check Terraform Formatting
+        run: terraform fmt -check
+
+  terraform-init:
+    name: Terraform Init
+    runs-on: ubuntu-latest
+    needs: terraform-fmt
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.7
+
+      - name: Terraform Init
+        run: terraform init
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  terraform-plan:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+    needs: terraform-init
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.7
+
+      - name: Terraform Init
+        run: terraform init
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan.out
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Upload Plan Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan
+          path: tfplan.out
+
+  terraform-apply:
+    name: Terraform Apply (Manual Trigger Only)
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -30,17 +92,21 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.5.7
-          terraform_wrapper: false
 
       - name: Terraform Init
-        run: terraform init -backend-config="bucket=your-tf-state-bucket" -backend-config="key=terraform.tfstate" -backend-config="region=us-east-1"
+        run: terraform init
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Terraform Destroy
-        run: terraform destroy -auto-approve
+      - name: Download Plan Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: tfplan
+          path: .
+
+      - name: Terraform Apply (Requires Manual Trigger)
+        run: terraform apply tfplan.out
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          TF_VAR_environment: production
