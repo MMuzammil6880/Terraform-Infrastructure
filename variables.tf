@@ -8,14 +8,14 @@ variable "tf_tag" {
   description = "Tags for the VPC and its resources"
   type        = string
   default     = "managed-by-terraform"
-  
+
 }
 
 variable "provider_region" {
   description = "this variable is for the provider region"
   type        = string
   default     = "us-east-1"
-  
+
 }
 
 #================================ VPC =========================================
@@ -27,63 +27,63 @@ variable "vpc_cidr" {
 }
 
 variable "public_subnet1_cidr" {
-    description = "List of public subnets for the VPC"
-    type        = string
-    default     = "10.0.0.0/24"
+  description = "List of public subnets for the VPC"
+  type        = string
+  default     = "10.0.0.0/24"
 }
 
 variable "public_subnet2_cidr" {
-    description = "List of public subnets for the VPC"
-    type        = string
-    default     = "10.0.1.0/24"
+  description = "List of public subnets for the VPC"
+  type        = string
+  default     = "10.0.1.0/24"
 }
 
 variable "public_subnet3_cidr" {
-    description = "List of public subnets for the VPC"
-    type        = string
-    default     = "10.0.2.0/24"
+  description = "List of public subnets for the VPC"
+  type        = string
+  default     = "10.0.2.0/24"
 }
 variable "private_subnet1_cidr" {
-    description = "List of private subnets for the VPC"
-    type        = string
-    default     = "10.0.3.0/24"
-    }
+  description = "List of private subnets for the VPC"
+  type        = string
+  default     = "10.0.3.0/24"
+}
 
 variable "private_subnet2_cidr" {
-    description = "List of private subnets for the VPC"
-    type        = string
-    default     = "10.0.4.0/24"
-    }
+  description = "List of private subnets for the VPC"
+  type        = string
+  default     = "10.0.4.0/24"
+}
 
 variable "private_subnet3_cidr" {
-    description = "List of private subnets for the VPC"
-    type        = string
-    default     = "10.0.5.0/24"
-    }       
+  description = "List of private subnets for the VPC"
+  type        = string
+  default     = "10.0.5.0/24"
+}
 
 
 
 
 
 variable "availability_zone1" {
-    description = "Availability zone for the first public subnet"
-    type        = string
-    default     = "us-east-1a"
-  
+  description = "Availability zone for the first public subnet"
+  type        = string
+  default     = "us-east-1a"
+
 }
 
 variable "availability_zone2" {
-    description = "Availability zone for the second public subnet"
-    type        = string
-    default     = "us-east-1b"
-  
+  description = "Availability zone for the second public subnet"
+  type        = string
+  default     = "us-east-1b"
+
 }
 
 variable "availability_zone3" {
-    description = "Availability zone for the private subnet"
-    type        = string
-    default     = "us-east-1c"
-  
+  description = "Availability zone for the private subnet"
+  type        = string
+  default     = "us-east-1c"
+
 }
 
 #================================ EC2 Instance =========================================
@@ -93,7 +93,7 @@ variable "ec2_instance_type" {
   description = "Instance type for the EC2 instance"
   type        = string
   default     = "t3.medium"
-  
+
 }
 #================================ Security Groups =========================================
 
@@ -136,21 +136,21 @@ variable "db_engine" {
   description = "Database engine for the RDS instance"
   type        = string
   default     = "mysql"
-  
+
 }
 
 variable "db_engine_version" {
   description = "Database engine version for the RDS instance"
   type        = string
   default     = "8.0"
-  
+
 }
 
 variable "db_instance_type" {
   description = "Instance type for the RDS instance"
   type        = string
   default     = "db.t3.small"
-  
+
 }
 
 variable "db_username" {
@@ -181,14 +181,14 @@ variable "db_family" {
   description = "DB family for the RDS instance"
   type        = string
   default     = "mysql8.0"
-  
+
 }
 
 variable "db_storage_type" {
   description = "Storage type for the RDS instance"
   type        = string
   default     = "gp2"
-  
+
 }
 
 

@@ -1,12 +1,12 @@
 module "ssm_role" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
+  source = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
 
-  create_role             = true
-  role_name               = "${var.env_prefix}-SSM-Role"
-  role_description        = "IAM role to allow EC2 instances to connect with AWS Systems Manager"
-  role_requires_mfa       = false
+  create_role       = true
+  role_name         = "${var.env_prefix}-SSM-Role"
+  role_description  = "IAM role to allow EC2 instances to connect with AWS Systems Manager"
+  role_requires_mfa = false
 
-  trusted_role_services   = ["ec2.amazonaws.com"]
+  trusted_role_services = ["ec2.amazonaws.com"]
 
   custom_role_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"

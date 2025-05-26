@@ -13,8 +13,8 @@ resource "aws_key_pair" "wordpress" {
 
 # Save private key locally
 resource "local_file" "private_key" {
-  content         = tls_private_key.wordpress.private_key_pem
-  filename        = "${path.module}/wordpress-server-key.pem"
+  content  = tls_private_key.wordpress.private_key_pem
+  filename = "${path.module}/wordpress-server-key.pem"
 }
 
 resource "null_resource" "set_pem_permissions" {
@@ -36,19 +36,19 @@ resource "aws_eip" "wordpress" {
 }
 
 module "wordpress_server" {
-  source  = "terraform-aws-modules/ec2-instance/aws"
+  source = "terraform-aws-modules/ec2-instance/aws"
 
-  name = "${var.env_prefix}-wordpress-server"
-  ami = "ami-07d9b9ddc6cd8dd30"
-  instance_type          = var.ec2_instance_type
-  key_name               = aws_key_pair.wordpress.key_name
-  monitoring             = false 
-  vpc_security_group_ids = [module.wordpress_sg.security_group_id]
-  subnet_id              = module.vpc.public_subnets[0]
+  name                        = "${var.env_prefix}-wordpress-server"
+  ami                         = "ami-07d9b9ddc6cd8dd30"
+  instance_type               = var.ec2_instance_type
+  key_name                    = aws_key_pair.wordpress.key_name
+  monitoring                  = false
+  vpc_security_group_ids      = [module.wordpress_sg.security_group_id]
+  subnet_id                   = module.vpc.public_subnets[0]
   associate_public_ip_address = true
-  iam_instance_profile = aws_iam_instance_profile.ssm_instance_profile.name
+  iam_instance_profile        = aws_iam_instance_profile.ssm_instance_profile.name
 
-    user_data = <<-EOF
+  user_data = <<-EOF
               #!/bin/bash
               apt update && apt upgrade -y
               apt install -y python3 python3-pip git ansible mysql-server mysql-client
@@ -66,7 +66,7 @@ module "wordpress_server" {
               EOF
 
   tags = {
-    
+
     managed = "${var.tf_tag}"
   }
 
@@ -80,14 +80,14 @@ module "wordpress_server" {
 
 
 resource "aws_eip_association" "wordpress_eip_association" {
-  instance_id = module.wordpress_server.id 
-  public_ip        = aws_eip.wordpress.public_ip 
-  
+  instance_id = module.wordpress_server.id
+  public_ip   = aws_eip.wordpress.public_ip
 
-  depends_on = [ 
+
+  depends_on = [
     module.wordpress_server,
     aws_eip.wordpress
-   ]
+  ]
 }
 
 

@@ -5,11 +5,11 @@ the required variables are defined in the variable file*/
 #below code is to create security group for frontend server
 
 module "wordpress_sg" {
-  source = "terraform-aws-modules/security-group/aws"
+  source      = "terraform-aws-modules/security-group/aws"
   description = "Security group for frontend server with HTTP and other ports open"
 
-  name = "${var.env_prefix}-wordpress-sg"
-  vpc_id      = module.vpc.vpc_id
+  name   = "${var.env_prefix}-wordpress-sg"
+  vpc_id = module.vpc.vpc_id
 
   # Ingress rules
   ingress_with_cidr_blocks = [
@@ -39,11 +39,11 @@ module "wordpress_sg" {
 module "db_sg" {
   source = "terraform-aws-modules/security-group/aws"
 
-  name = "${var.env_prefix}-db-sg"
-  vpc_id      = module.vpc.vpc_id
+  name   = "${var.env_prefix}-db-sg"
+  vpc_id = module.vpc.vpc_id
 
   # Ingress rules
- ingress_with_source_security_group_id = [
+  ingress_with_source_security_group_id = [
     {
       from_port                = 3306
       to_port                  = 3306

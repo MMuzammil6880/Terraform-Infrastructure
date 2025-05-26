@@ -2,7 +2,7 @@ module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
   cidr   = var.vpc_cidr
 
- 
+
   # Enable DNS hostnames and DNS resolution
 
   enable_dns_hostnames = true
@@ -16,19 +16,19 @@ module "vpc" {
   public_subnets  = [var.public_subnet1_cidr, var.public_subnet2_cidr, var.public_subnet3_cidr]
   private_subnets = [var.private_subnet1_cidr, var.private_subnet2_cidr, var.private_subnet3_cidr]
 
-  
+
   # Enable NAT Gateway
   enable_nat_gateway = false
   single_nat_gateway = false
 
   # Enable VPC Flow Logs
 
-  manage_default_route_table         = false
-  manage_default_security_group      = false  
-  
+  manage_default_route_table    = false
+  manage_default_security_group = false
+
   # Tags for the VPC and its resources
   tags = {
-    Name   = "${var.env_prefix}-vpc"
+    Name    = "${var.env_prefix}-vpc"
     managed = "${var.tf_tag}"
   }
 }
