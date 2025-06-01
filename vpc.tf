@@ -1,3 +1,5 @@
+
+
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
   cidr   = var.vpc_cidr
@@ -26,39 +28,17 @@ module "vpc" {
   manage_default_route_table    = false
   manage_default_security_group = false
 
-  # Tags for the VPC and its resources
+
   # Tags for the VPC
   tags = {
     Name    = "${var.env_prefix}-vpc"
     managed = "${var.tf_tag}"
   }
 
-  # Tags for subnets
-  public_subnet_tags = {
-    Name    = "${var.env_prefix}-public-subnet"
-    managed = "${var.tf_tag}"
-  }
-
-  private_subnet_tags = {
-    Name    = "${var.env_prefix}-private-subnet"
-    managed = "${var.tf_tag}"
-  }
-
-  # Internet Gateway tags
-  igw_tags = {
-    Name    = "${var.env_prefix}-igw"
-    managed = "${var.tf_tag}"
-  }
-
-  # Route Table tags
-  public_route_table_tags = {
-    Name    = "${var.env_prefix}-public-rt"
-    managed = "${var.tf_tag}"
-  }
-
-  private_route_table_tags = {
-    Name    = "${var.env_prefix}-private-rt"
-    managed = "${var.tf_tag}"
-  }
+  public_subnet_suffix = "${var.env_prefix}-public-subnet"
+  private_subnet_suffix = "${var.env_prefix}-private-subnet"
+  igw_tags = "${var.env_prefix}-igw"
+  public_route_table_tags = "${var.env_prefix}-public-rtb"
+  private_route_table_tags = "${var.env_prefix}-private-rtb"
 }
 
