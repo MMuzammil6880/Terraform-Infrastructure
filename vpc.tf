@@ -35,10 +35,23 @@ module "vpc" {
     managed = "${var.tf_tag}"
   }
 
-  public_subnet_suffix     = "${var.env_prefix}-public-subnet"
-  private_subnet_suffix    = "${var.env_prefix}-private-subnet"
-  igw_tags                 = "${var.env_prefix}-igw"
-  public_route_table_tags  = "${var.env_prefix}-public-rtb"
-  private_route_table_tags = "${var.env_prefix}-private-rtb"
+  public_subnet_suffix  = "${var.env_prefix}-public-subnet"
+  private_subnet_suffix = "${var.env_prefix}-private-subnet"
+
+  igw_tags = {
+    Name    = "${var.env_prefix}-igw"
+    managed = "${var.tf_tag}"
+  }
+
+  public_route_table_tags = {
+    Name    = "${var.env_prefix}-public-rtb"
+    managed = "${var.tf_tag}"
+  }
+
+  private_route_table_tags = {
+    Name    = "${var.env_prefix}-private-rtb"
+    managed = "${var.tf_tag}"
+  }
+
 }
 
