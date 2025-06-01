@@ -27,7 +27,7 @@ module "vpc" {
   manage_default_security_group = false
 
   # Tags for the VPC and its resources
-   # Tags for the VPC
+  # Tags for the VPC
   tags = {
     Name    = "${var.env_prefix}-vpc"
     managed = "${var.tf_tag}"
