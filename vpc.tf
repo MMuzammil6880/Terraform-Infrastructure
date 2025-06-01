@@ -35,8 +35,29 @@ module "vpc" {
     managed = "${var.tf_tag}"
   }
 
-  public_subnet_suffix  = "${var.env_prefix}-public-subnet"
-  private_subnet_suffix = "${var.env_prefix}-private-subnet"
+  public_subnet_tags_per_az = {
+    "${var.availability_zone1}" = {
+      Name = "${var.env_prefix}-public-subnet-1"
+    }
+    "${var.availability_zone2}" = {
+      Name = "${var.env_prefix}-public-subnet-2"
+    }
+    "${var.availability_zone3}" = {
+      Name = "${var.env_prefix}-public-subnet-3"
+    }
+  }
+
+  private_subnet_tags_per_az = {
+    "${var.availability_zone1}" = {
+      Name = "${var.env_prefix}-private-subnet-1"
+    }
+    "${var.availability_zone2}" = {
+      Name = "${var.env_prefix}-private-subnet-2"
+    }
+    "${var.availability_zone3}" = {
+      Name = "${var.env_prefix}-private-subnet-3"
+    }
+  }
 
   igw_tags = {
     Name    = "${var.env_prefix}-igw"
