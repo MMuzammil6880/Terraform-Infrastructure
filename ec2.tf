@@ -30,7 +30,7 @@ resource "aws_eip" "wordpress" {
   domain = "vpc"
 
   tags = {
-    name    = "${var.env_prefix}-wordpress-eip"
+    name    = "${var.env_prefix}-eip"
     managed = "${var.tf_tag}"
   }
 }
