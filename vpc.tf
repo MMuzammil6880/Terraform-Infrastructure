@@ -27,8 +27,37 @@ module "vpc" {
   manage_default_security_group = false
 
   # Tags for the VPC and its resources
+   # Tags for the VPC
   tags = {
     Name    = "${var.env_prefix}-vpc"
+    managed = "${var.tf_tag}"
+  }
+
+  # Tags for subnets
+  public_subnet_tags = {
+    Name    = "${var.env_prefix}-public-subnet"
+    managed = "${var.tf_tag}"
+  }
+
+  private_subnet_tags = {
+    Name    = "${var.env_prefix}-private-subnet"
+    managed = "${var.tf_tag}"
+  }
+
+  # Internet Gateway tags
+  igw_tags = {
+    Name    = "${var.env_prefix}-igw"
+    managed = "${var.tf_tag}"
+  }
+
+  # Route Table tags
+  public_route_table_tags = {
+    Name    = "${var.env_prefix}-public-rt"
+    managed = "${var.tf_tag}"
+  }
+
+  private_route_table_tags = {
+    Name    = "${var.env_prefix}-private-rt"
     managed = "${var.tf_tag}"
   }
 }
