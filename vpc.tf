@@ -19,7 +19,6 @@ module "vpc" {
   private_subnets = [var.private_subnet1_cidr, var.private_subnet2_cidr, var.private_subnet3_cidr]
 
 
-  create_multiple_public_route_tables = false
 
 
   # Enable VPC Flow Logs
