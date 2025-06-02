@@ -15,7 +15,7 @@ resource "aws_key_pair" "server" {
 # Save private key locally
 resource "local_file" "private_key" {
   content  = tls_private_key.server.private_key_pem
-  filename = "${path.module}/${var.env_prefix}server-key.pem"
+  filename = "${path.module}/${var.env_prefix}-server-key.pem"
 }
 
 resource "null_resource" "set_pem_permissions" {
@@ -84,7 +84,7 @@ module "ec2_server" {
 
 #below is the code for creating the EIP association with the EC2 instance
 
-resource "aws_eip_association" "wordpress_eip_association" {
+resource "aws_eip_association" "server_eip_association" {
   instance_id = module.ec2_server.id
   public_ip   = aws_eip.server.public_ip
 

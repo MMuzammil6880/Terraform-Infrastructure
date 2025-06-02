@@ -20,6 +20,6 @@ module "ssm_role" {
 }
 
 resource "aws_iam_instance_profile" "ssm_instance_profile" {
-  name = "${var.env_prefix}-SSM-Profile"
+  name = "${var.env_prefix}-SSM-Role"
   role = module.ssm_role.iam_role_name
 }
