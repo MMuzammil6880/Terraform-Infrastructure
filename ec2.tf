@@ -1,20 +1,21 @@
+#below is the code for creating the private key and AWS key pair for the EC2 instance
 
 # Generate private key
-resource "tls_private_key" "wordpress" {
+resource "tls_private_key" "server" {
   algorithm = "RSA"
   rsa_bits  = 4096
 }
 
 # Create AWS key pair from public key
-resource "aws_key_pair" "wordpress" {
-  key_name   = "wordpress-server-key"
-  public_key = tls_private_key.wordpress.public_key_openssh
+resource "aws_key_pair" "server" {
+  key_name   = "${var.env_prefix}-server-key"
+  public_key = tls_private_key.server.public_key_openssh
 }
 
 # Save private key locally
 resource "local_file" "private_key" {
-  content  = tls_private_key.wordpress.private_key_pem
-  filename = "${path.module}/wordpress-server-key.pem"
+  content  = tls_private_key.server.private_key_pem
+  filename = "${path.module}/${var.env_prefix}server-key.pem"
 }
 
 resource "null_resource" "set_pem_permissions" {
@@ -25,8 +26,9 @@ resource "null_resource" "set_pem_permissions" {
 }
 
 
+#below is the code for creatingt the elastic IP for the EC2 instance
 
-resource "aws_eip" "wordpress" {
+resource "aws_eip" "server" {
   domain = "vpc"
 
   tags = {
@@ -35,13 +37,15 @@ resource "aws_eip" "wordpress" {
   }
 }
 
-module "wordpress_server" {
+#below is the code for creating the EC2 instance with Ansible playbook to install WordPress
+
+module "ec2_server" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
-  name                        = "${var.env_prefix}-wordpress-server"
+  name                        = "${var.env_prefix}-server"
   ami                         = "ami-07d9b9ddc6cd8dd30"
   instance_type               = var.ec2_instance_type
-  key_name                    = aws_key_pair.wordpress.key_name
+  key_name                    = aws_key_pair.server.key_name
   monitoring                  = false
   vpc_security_group_ids      = [module.wordpress_sg.security_group_id]
   subnet_id                   = module.vpc.public_subnets[0]
@@ -71,21 +75,22 @@ module "wordpress_server" {
   }
 
   depends_on = [
-    aws_key_pair.wordpress,
-    aws_eip.wordpress,
+    aws_key_pair.server,
+    aws_eip.server,
     module.ssm_role
   ]
 
 }
 
+#below is the code for creating the EIP association with the EC2 instance
 
 resource "aws_eip_association" "wordpress_eip_association" {
   instance_id = module.wordpress_server.id
-  public_ip   = aws_eip.wordpress.public_ip
+  public_ip   = aws_eip.server.public_ip
 
 
   depends_on = [
-    module.wordpress_server,
+    module.ec2_server,
     aws_eip.wordpress
   ]
 }
