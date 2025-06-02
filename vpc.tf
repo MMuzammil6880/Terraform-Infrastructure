@@ -20,10 +20,7 @@ module "vpc" {
 
 
   create_multiple_public_route_tables = false
-  create_multiple_intra_route_tables  = false
-
-  # Enable NAT Gateway
-  enable_nat_gateway = false
+  
 
   # Enable VPC Flow Logs
   manage_default_route_table    = false
