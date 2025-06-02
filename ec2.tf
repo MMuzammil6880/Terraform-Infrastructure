@@ -85,7 +85,7 @@ module "ec2_server" {
 #below is the code for creating the EIP association with the EC2 instance
 
 resource "aws_eip_association" "wordpress_eip_association" {
-  instance_id = module.ec2_server.instance_id
+  instance_id = module.ec2_server.id
   public_ip   = aws_eip.server.public_ip
 
 
